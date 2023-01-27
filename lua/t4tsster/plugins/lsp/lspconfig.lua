@@ -21,17 +21,20 @@ local on_attach = function(client, bufnr)
     local opts = { noremap = true, silent = true, buffer = bufnr }
 
     local wk = require("which-key")
-    -- local default_options = { silent = true }
 
     -- set keybinds
-    keymap.set("n", "gf", "<cmd>Lspsaga lsp_finder<CR>", opts) -- show definition, references
-    keymap.set("n", "gD", vim.lsp.buf.declaration, opts) -- go to declaration
-    keymap.set("n", "gd", "<cmd>Lspsaga peek_definition<CR>", opts) -- see definition and make edits in window
-    keymap.set('n', 'gi', vim.lsp.buf.implementation, opts) -- go to implementation
+    wk.register({
+        g = {
+            "GoTo",
+            f = { "<cmd>Lspsaga lsp_finder<CR>" , "Show definition, references"},
+            D = { vim.lsp.buf.declaration, "Go to declaration"},
+            d = { "<cmd>Lspsaga peek_definition<CR>", "Peek definition"},
+            i = { vim.lsp.buf.implementation, "Go to implementation"},
+        }
+    }, { prefix = '', mode = "n", opts })
     keymap.set("n", "<leader>ca", "<cmd>Lspsaga code_action<CR>", opts) -- see available code actions
     keymap.set("n", "<leader>rn", "<cmd>Lspsaga rename<CR>", opts) -- smart rename
     keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>", opts) -- show documentation for what is under cursor
-    keymap.set("n", "<leader>o", "<cmd>LSoutlineToggle<CR>", opts) -- see outline on right hand side
 
     wk.register({
         d = { "<cmd>Telescope diagnostics bufnr=0<cr>", "Document Diagnostics" },
