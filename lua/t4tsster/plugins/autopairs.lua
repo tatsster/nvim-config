@@ -5,11 +5,12 @@ end
 
 -- configure autopairs
 autopairs.setup({
-  check_ts = true, -- enable treesitter
-  ts_config = {
-    lua = { "string" }, -- don't add pairs in lua string treesitter nodes
-    javascript = { "template_string" }, -- don't add pairs in javscript template_string treesitter nodes
-  },
+    check_ts = true, -- enable treesitter
+    ts_config = {
+        lua = { "string" }, -- don't add pairs in lua string treesitter nodes
+        javascript = { "template_string" }, -- don't add pairs in javscript template_string treesitter nodes
+    },
+    disable_filetype = { "TelescopePrompt" , "guihua", "guihua_rust", "clap_input" },
 })
 
 -- import nvim-autopairs completion functionality safely

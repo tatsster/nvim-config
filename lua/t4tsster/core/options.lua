@@ -9,6 +9,7 @@ opt.tabstop = 4
 opt.shiftwidth = 4
 opt.expandtab = true
 opt.autoindent = true
+opt.ruler = true
 
 -- line wrapping
 opt.wrap = false
@@ -23,7 +24,7 @@ opt.cursorline = true
 -- appearance
 opt.termguicolors = false
 opt.background = "dark"
-opt.signcolumn = "no"
+opt.signcolumn = "yes"
 
 -- backspace
 opt.backspace = "indent,eol,start"
@@ -36,3 +37,7 @@ opt.splitright = true
 opt.splitbelow = true
 
 opt.iskeyword:append("-")
+
+-- Fold
+opt.foldmethod = "expr"
+opt.foldexpr = "nvim_treesitter#foldexpr()"

@@ -1,6 +1,6 @@
 local status, lspconfig = pcall(require, "lspconfig")
-if not status then 
-    return 
+if not status then
+    return
 end
 
 local status, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
@@ -20,21 +20,58 @@ local on_attach = function(client, bufnr)
     -- keybind options
     local opts = { noremap = true, silent = true, buffer = bufnr }
 
+    local wk = require("which-key")
+    -- local default_options = { silent = true }
+
     -- set keybinds
     keymap.set("n", "gf", "<cmd>Lspsaga lsp_finder<CR>", opts) -- show definition, references
-    keymap.set("n", "gD", "<Cmd>lua vim.lsp.buf.declaration()<CR>", opts) -- go to declaration
+    keymap.set("n", "gD", vim.lsp.buf.declaration, opts) -- go to declaration
     keymap.set("n", "gd", "<cmd>Lspsaga peek_definition<CR>", opts) -- see definition and make edits in window
-    keymap.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts) -- go to implementation
+    keymap.set('n', 'gi', vim.lsp.buf.implementation, opts) -- go to implementation
     keymap.set("n", "<leader>ca", "<cmd>Lspsaga code_action<CR>", opts) -- see available code actions
     keymap.set("n", "<leader>rn", "<cmd>Lspsaga rename<CR>", opts) -- smart rename
-    keymap.set("n", "<leader>D", "<cmd>Lspsaga show_line_diagnostics<CR>", opts) -- show  diagnostics for line
-    keymap.set("n", "<leader>d", "<cmd>Lspsaga show_cursor_diagnostics<CR>", opts) -- show diagnostics for cursor
     keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>", opts) -- show documentation for what is under cursor
     keymap.set("n", "<leader>o", "<cmd>LSoutlineToggle<CR>", opts) -- see outline on right hand side
+
+    wk.register({
+        d = { "<cmd>Telescope diagnostics bufnr=0<cr>", "Document Diagnostics" },
+        D = { "<cmd>Telescope diagnostics<cr>", "Workspace Diagnostics" },
+    }, { prefix = "<leader>" , mode = "n", opts })
+
+    if client.name == 'gopls' then
+        wk.register({
+            c = {
+                name = "Go Code",
+                a = { "<cmd>GoCodeAction<cr>", "Code action" },
+                e = { "<cmd>GoIfErr<cr>", "Add if err" },
+                h = {
+                    name = "Helper",
+                    a = { "<cmd>GoAddTag<cr>", "Add tags to struct" },
+                    r = { "<cmd>GoRMTag<cr>", "Remove tags to struct" },
+                    c = { "<cmd>GoCoverage<cr>", "Test coverage" },
+                    g = { "<cmd>lua require('go.comment').gen()<cr>", "Generate comment" },
+                    v = { "<cmd>GoVet<cr>", "Go vet" },
+                    t = { "<cmd>GoModTidy<cr>", "Go mod tidy" },
+                    i = { "<cmd>GoModInit<cr>", "Go mod init" },
+                },
+                s = { "<cmd>GoFillStruct<cr>", "Autofill struct" },
+                x = {
+                    name = "Code Lens",
+                    l = { "<cmd>GoCodeLenAct<cr>", "Toggle Lens" },
+                    i = { "<cmd>GoToggleInlay<CR>", "Toggle InLay" },
+                },
+            },
+        }, { prefix = "<leader>", mode = "n", opts })
+    end
 end
 
 -- used to enable autocompletion (assign to every lsp server config)
 local capabilities = cmp_nvim_lsp.default_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+capabilities.textDocument.foldingRange = {
+    dynamicRegistration = false,
+    lineFoldingOnly = true
+}
 
 -- configure html server
 lspconfig["html"].setup({
@@ -43,11 +80,20 @@ lspconfig["html"].setup({
 })
 
 -- configure golang with plugin
-go.setup({
-    lsp_cfg = {
-        capabilities = capabilities,
-    },
-    lsp_on_attach = on_attach,
+go.setup()
+lspconfig["gopls"].setup({
+    capabilities = capabilities,
+    on_attach = on_attach,
+    settings = {
+        gopls = {
+            experimentalPostfixCompletions = true,
+            analyses = {
+                unusedparams = true,
+		        shadow = true,
+		    },
+		    staticcheck = true,
+		},
+	},
 })
 
 -- configure css server

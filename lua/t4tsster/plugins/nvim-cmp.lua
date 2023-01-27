@@ -11,10 +11,10 @@ end
 local status, lspkind = pcall(require, "lspkind")
 if not status then
     return
-end 
+end
 
 -- load friendly-snippets
-require("luasnip/loaders/from_vscode").lazy_load()
+require("luasnip.loaders.from_vscode").lazy_load()
 
 vim.opt.completeopt = "menu,menuone,noselect"
 
@@ -23,7 +23,7 @@ cmp.setup({
         expand = function(args)
             luasnip.lsp_expand(args.body)
         end,
-    }, 
+    },
     mapping = cmp.mapping.preset.insert({
         ["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions
         ["<C-e>"] = cmp.mapping.abort(), -- close completion window
@@ -43,4 +43,26 @@ cmp.setup({
             ellipsis_char = "...",
         }),
     },
+})
+
+-- `/` cmdline setup.
+cmp.setup.cmdline('/', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+        { name = 'buffer' }
+    }
+})
+-- `:` cmdline setup.
+cmp.setup.cmdline(':', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+        { name = 'path' }
+    }, {
+    {
+        name = 'cmdline',
+        option = {
+            ignore_cmds = { 'Man', '!' }
+        }
+    }
+    })
 })

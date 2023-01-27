@@ -54,20 +54,42 @@ return packer.startup(function(use)
         tag = 'nightly' -- optional, updated every week. (see issue #1193)
     }
 
+    -- terminal 
+    use {"akinsho/toggleterm.nvim", tag = '*'}
+
+    -- keybindings
+    use {
+        "folke/which-key.nvim",
+        config = function()
+            vim.o.timeout = true
+            vim.o.timeoutlen = 100
+        end
+    }
+
     -- statusline
     use("nvim-lualine/lualine.nvim")
+    use('j-hui/fidget.nvim')
+    -- tabline
+    use {'romgrk/barbar.nvim', wants = 'nvim-web-devicons'}
+
+    -- fold
+    use({'anuvyklack/pretty-fold.nvim'})
 
     -- fuzzy findding
     use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" }) -- dependency for better sorting performance
     use({ "nvim-telescope/telescope.nvim", branch = "0.1.x" }) -- fuzzy finder
+    use({ 'nvim-telescope/telescope-ui-select.nvim' })
+    use({ "de-passage/telescope-makefile" }) -- Selection Makefile options
+    use({ "princejoogie/dir-telescope.nvim", requires = {"nvim-telescope/telescope.nvim"}}) -- Grep in dir
 
     -- autocompletion
     use("hrsh7th/nvim-cmp") -- completion plugin
     use("hrsh7th/cmp-buffer") -- source for text in buffer
     use("hrsh7th/cmp-path") -- source for file system paths
+    use("hrsh7th/cmp-cmdline") -- source for cmdline
 
-    -- snippets
-    use("L3MON4D3/LuaSnip") -- snippet engine
+    -- snippet
+    use({"L3MON4D3/LuaSnip", tag = "v<CurrentMajor>.*"})
     use("saadparwaiz1/cmp_luasnip") -- for autocompletion
     use("rafamadriz/friendly-snippets") -- useful snippets
 
@@ -80,10 +102,25 @@ return packer.startup(function(use)
     use("hrsh7th/cmp-nvim-lsp") -- for autocompletion
     use({ "glepnir/lspsaga.nvim", branch = "main" }) -- enhanced lsp uis
     use("onsails/lspkind.nvim") -- vs-code like icons for autocompletion
+    use('folke/lsp-colors.nvim')
 
-    -- Language support
+    -- Golang
     use('ray-x/go.nvim')
     use('ray-x/guihua.lua') -- recommanded if need floating window support
+
+    -- DAP
+    use('mfussenegger/nvim-dap')
+    use({
+        "rcarriga/nvim-dap-ui",
+        requires = {"mfussenegger/nvim-dap"}
+    })
+    use({
+        "nvim-telescope/telescope-dap.nvim",
+        requires = { "mfussenegger/nvim-dap", "nvim-telescope/telescope.nvim" },
+    })
+    use('leoluz/nvim-dap-go')
+
+    -- Treesitter 
     use({'nvim-treesitter/nvim-treesitter',
         run = function()
             local ts_update = require("nvim-treesitter.install").update({ with_sync = true })
@@ -101,6 +138,13 @@ return packer.startup(function(use)
 
     -- git integration
     use("lewis6991/gitsigns.nvim") -- show line modifications on left hand side
+    use("tpope/vim-fugitive") -- Git in action
+
+    -- Outline
+    use("simrat39/symbols-outline.nvim")
+
+    -- Autosave
+    use("Pocco81/auto-save.nvim")
 
     if packer_bootstrap then
         require("packer").sync()

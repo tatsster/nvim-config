@@ -1,47 +1,82 @@
+local wk = require("which-key")
 vim.g.mapleader = " "
 
 local keymap = vim.keymap -- for conciseness
 
 -- general keymaps
-keymap.set("i", "jk", "<ESC>") -- use jk to exit Insert mode
+keymap.set("t", "<ESC>", "<C-\\><C-n>") -- Exit terminal mode
 
 -- Clear search highlight
 keymap.set("n", "<leader>nh", ":nohl<CR>")
 
--- window management
-keymap.set("n", "<leader>sv", "<C-w>v") -- split window vertically
-keymap.set("n", "<leader>sh", "<C-w>s") -- split window horizontally
-keymap.set("n", "<leader>se", "<C-w>=") -- make split windows equal width & height
-keymap.set("n", "<leader>sx", ":close<CR>") -- close current split window
+-- Window management
+wk.register({
+    s = {
+        name = "Windows", -- optional group name
+        v = {"<C-w>v", "Split window vertically"},
+        h = {"<C-w>s", "Split window horizontally"},
+        e = {"<C-w>=", "Make split windows equally"},
+        x = {":close<CR>", "Close current window"},
+    },
+}, { prefix = "<leader>" })
 
-keymap.set("n", "<leader>to", ":tabnew<CR>") -- open new tab
-keymap.set("n", "<leader>tx", ":tabclose<CR>") -- close current tab
-keymap.set("n", "<leader>tn", ":tabn<CR>") --  go to next tab
-keymap.set("n", "<leader>tp", ":tabp<CR>") --  go to previous tab
-
--- Terminal management
-keymap.set("t", "<ESC>", "<C-\\><C-n>") -- Exist terminal mode
+-- Tab management
+wk.register({
+    t = {
+        name = "Tab",
+        o = {":tabnew<CR>", "Open New Tab"},
+        x = {":tabclose<CR>", "Close Tab"},
+        n = {":tabn<CR>", "Go to next Tab"},
+        p = {":tabp<CR>", "Go to previous Tab"},
+    },
+}, {prefix = "<leader>"})
 
 --------------------
 -- Plugin keymaps
 --------------------
--- vim-navigator
--- keymap.set("n", "<C-Left>", ":<C-U>TmuxNavigateLeft<cr>")
--- keymap.set("n", "<C-Right>", ":<C-U>TmuxNavigateRight<cr>")
--- keymap.set("n", "<C-Up>", ":<C-U>TmuxNavigateUp<cr>")
--- keymap.set("n", "<C-Down>", ":<C-U>TmuxNavigateDown<cr>")
 
 -- vim-maximizer
 keymap.set("n", "<leader>sm", ":MaximizerToggle<CR>") -- toggle split window maximization 
 
 -- nvim-tree
-keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>")
+wk.register({
+    e = {
+        name = "Nvim Tree",
+        t = { "<cmd>NvimTreeToggle<CR>", "Toggle Nvim Tree" },
+        f = { "<cmd>NvimTreeFindFile<CR>", "Focus file on buffer"},
+    }
+}, { prefix = "<leader>"})
 
 -- telescope
-local builtin = require('telescope.builtin')
-keymap.set('n', '<leader>ff', builtin.find_files, {}) -- find files within current working dir
-keymap.set('n', '<leader>fs', builtin.live_grep, {}) -- find string in current working dir as you type
-keymap.set('n', '<leader>fc', builtin.grep_string, {}) -- find string under cursor in current working dir
-keymap.set('n', '<leader>fb', builtin.buffers, {}) -- list open buffers in current neovim instance
-keymap.set('n', '<leader>fh', builtin.help_tags, {}) -- list available help tags
+wk.register({
+    f = {
+        name = "Find", -- optional group name
+        f = { "<cmd>Telescope find_files<CR>", "Find File" },
+        l = { "<cmd>Telescope live_grep<CR>", "Live Grep all" },
+        d = { "<cmd>Telescope dir live_grep<CR>", "Live Grep in dir"},
+        s = { "<cmd>Telescope current_buffer_fuzzy_find<CR>", "Find in current file"},
+        b = { "<cmd>Telescope buffers<CR>", "Open Buffers" },
+        h = { "<cmd>Telescope help_tags<CR>", "Help Tags"},
+    },
+}, { prefix = "<leader>" })
+
+wk.register({
+    M = { ":Telescope make<CR>", "Make Targets", },
+})
+
+-- symbols-outline
+keymap.set("n", "<leader>so", ":SymbolsOutline<CR>") -- toggle Symbols Outline
+
+-- Debugging
+keymap.set("n", "<F5>", ":lua require'dap'.continue()<CR>")
+keymap.set("n", "<F10>", ":lua require'dap'.step_over()<CR>")
+keymap.set("n", "<F11>", ":lua require'dap'.step_into()<CR>")
+keymap.set("n", "<F12>", ":lua require'dap'.step_out()<CR>")
+keymap.set("n", "<leader>b", ":lua require'dap'.toggle_breakpoint()<CR>")
+wk.register({
+    d = {
+        name = "DAP",
+        t = { ":lua require'dapui'.toggle()<CR>", "Toggle DAP UI"},
+    }
+})
 

@@ -3,4 +3,11 @@ if not setup then
     return
 end
 
-comment.setup()
+comment.setup({
+    opleader = {
+        ---Line-comment keymap
+        line = 'gcv',
+        ---Block-comment keymap
+        block = 'gbv',
+    },
+})
