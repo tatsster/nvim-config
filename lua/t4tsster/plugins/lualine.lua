@@ -4,5 +4,7 @@ if not status then
 end
 
 lualine.setup({
-    options = {theme = "material"},
+    options = {
+        theme = "monokaipro"
+    },
 })

@@ -34,7 +34,7 @@ return packer.startup(function(use)
     use('nvim-lua/plenary.nvim')
 
     -- Theme
-    use('marko-cerovac/material.nvim')
+    use 'https://gitlab.com/__tpb/monokai-pro.nvim'
 
     -- Split windows nagivation
     use('christoomey/vim-tmux-navigator')
@@ -89,7 +89,7 @@ return packer.startup(function(use)
     use("hrsh7th/cmp-cmdline") -- source for cmdline
 
     -- snippet
-    use({"L3MON4D3/LuaSnip", tag = "v<CurrentMajor>.*"})
+    use({"L3MON4D3/LuaSnip", tag = "v<CurrentMajor>.*", run = "make install_jsregexp"})
     use("saadparwaiz1/cmp_luasnip") -- for autocompletion
     use("rafamadriz/friendly-snippets") -- useful snippets
 
