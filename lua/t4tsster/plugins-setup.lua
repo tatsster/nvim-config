@@ -34,7 +34,7 @@ return packer.startup(function(use)
     use('nvim-lua/plenary.nvim')
 
     -- Theme
-    use 'https://gitlab.com/__tpb/monokai-pro.nvim'
+    use('sainnhe/sonokai')
 
     -- Split windows nagivation
     use('christoomey/vim-tmux-navigator')

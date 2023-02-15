@@ -19,7 +19,7 @@ mason_lspconfig.setup({
     ensure_installed = {
         "html",
         "cssls",
-        "sumneko_lua",
+        "lua_ls",
         "jedi_language_server",
         "jdtls",
         "gopls",

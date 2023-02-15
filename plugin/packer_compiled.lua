@@ -185,11 +185,6 @@ _G.packer_plugins = {
     path = "/Users/lap02127/.local/share/nvim/site/pack/packer/start/mason.nvim",
     url = "https://github.com/williamboman/mason.nvim"
   },
-  ["monokai-pro.nvim"] = {
-    loaded = true,
-    path = "/Users/lap02127/.local/share/nvim/site/pack/packer/start/monokai-pro.nvim",
-    url = "https://gitlab.com/__tpb/monokai-pro.nvim"
-  },
   ["null-ls.nvim"] = {
     loaded = true,
     path = "/Users/lap02127/.local/share/nvim/site/pack/packer/start/null-ls.nvim",
@@ -261,6 +256,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/lap02127/.local/share/nvim/site/pack/packer/start/pretty-fold.nvim",
     url = "https://github.com/anuvyklack/pretty-fold.nvim"
+  },
+  sonokai = {
+    loaded = true,
+    path = "/Users/lap02127/.local/share/nvim/site/pack/packer/start/sonokai",
+    url = "https://github.com/sainnhe/sonokai"
   },
   ["symbols-outline.nvim"] = {
     loaded = true,
