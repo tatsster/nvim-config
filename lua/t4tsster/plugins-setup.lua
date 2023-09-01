@@ -68,7 +68,10 @@ return packer.startup(function(use)
 
     -- statusline
     use("nvim-lualine/lualine.nvim")
-    use('j-hui/fidget.nvim')
+    use {
+        'j-hui/fidget.nvim',
+        tag = 'legacy',
+    }
     -- tabline
     use {'romgrk/barbar.nvim', wants = 'nvim-web-devicons'}
 
@@ -89,7 +92,13 @@ return packer.startup(function(use)
     use("hrsh7th/cmp-cmdline") -- source for cmdline
 
     -- snippet
-    use({"L3MON4D3/LuaSnip", tag = "v<CurrentMajor>.*", run = "make install_jsregexp"})
+    use({
+        "L3MON4D3/LuaSnip",
+        -- follow latest release.
+        tag = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+        -- install jsregexp (optional!:).
+        run = "make install_jsregexp"
+    })
     use("saadparwaiz1/cmp_luasnip") -- for autocompletion
     use("rafamadriz/friendly-snippets") -- useful snippets
 
@@ -100,7 +109,10 @@ return packer.startup(function(use)
     -- configuring lsp servers
     use("neovim/nvim-lspconfig")
     use("hrsh7th/cmp-nvim-lsp") -- for autocompletion
-    use({ "glepnir/lspsaga.nvim", branch = "main" }) -- enhanced lsp uis
+    use({ 
+        'nvimdev/lspsaga.nvim',
+        after = 'nvim-lspconfig',
+    }) -- enhanced lsp uis
     use("onsails/lspkind.nvim") -- vs-code like icons for autocompletion
     use('folke/lsp-colors.nvim')
 
