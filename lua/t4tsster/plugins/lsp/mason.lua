@@ -17,8 +17,6 @@ mason.setup()
 
 mason_lspconfig.setup({
     ensure_installed = {
-        "html",
-        "cssls",
         "lua_ls",
         "jedi_language_server",
         "jdtls",

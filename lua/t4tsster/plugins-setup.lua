@@ -70,7 +70,6 @@ return packer.startup(function(use)
     use("nvim-lualine/lualine.nvim")
     use {
         'j-hui/fidget.nvim',
-        tag = 'legacy',
     }
     -- tabline
     use {'romgrk/barbar.nvim', wants = 'nvim-web-devicons'}
@@ -79,7 +78,7 @@ return packer.startup(function(use)
     use({'anuvyklack/pretty-fold.nvim'})
 
     -- fuzzy findding
-    use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" }) -- dependency for better sorting performance
+    use({ 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' })
     use({ "nvim-telescope/telescope.nvim", branch = "0.1.x" }) -- fuzzy finder
     use({ 'nvim-telescope/telescope-ui-select.nvim' })
     use({ "de-passage/telescope-makefile" }) -- Selection Makefile options
