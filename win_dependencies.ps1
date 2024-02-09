@@ -1,10 +1,10 @@
-# Upgrade to PowerShell 7
-# Check PowerShell version and upgrade if necessary.
-if ($PSVersionTable.PSVersion.Major -lt 7) {
-    Write-Host "Upgrading to PowerShell 7..."
-    # Install PowerShell 7
-    Invoke-Expression "& { iwr https://aka.ms/install-powershell.ps1 -UseBasicParsing | iex }"
-    Write-Host "PowerShell 7 installed. Please restart the session to use PowerShell 7."
+# Install PowerShell 7 using winget
+Write-Host "Installing PowerShell 7 using winget..."
+winget install Microsoft.PowerShell -y
+
+# Check if installation is successful
+if (!(Get-Command pwsh -ErrorAction SilentlyContinue)) {
+    Write-Host "PowerShell 7 installation failed. Please check the installation and try again."
     return
 }
 
