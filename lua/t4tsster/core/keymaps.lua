@@ -10,26 +10,22 @@ keymap.set("t", "<ESC>", "<C-\\><C-n>") -- Exit terminal mode
 keymap.set("n", "<leader>nh", ":nohl<CR>")
 
 -- Window management
-wk.register({
-    s = {
-        name = "Windows", -- optional group name
-        v = {"<C-w>v", "Split window vertically"},
-        h = {"<C-w>s", "Split window horizontally"},
-        e = {"<C-w>=", "Make split windows equally"},
-        x = {":close<CR>", "Close current window"},
-    },
-}, { prefix = "<leader>" })
+wk.add({
+    { "<leader>s", group = "Windows" },
+    { "<leader>sv", "<C-w>v", desc = "Split window vertically" },
+    { "<leader>sh", "<C-w>s", desc = "Split window horizontally" },
+    { "<leader>se", "<C-w>=", desc = "Make split windows equally" },
+    { "<leader>sx", ":close<CR>", desc = "Close current window" },
+})
 
 -- Tab management
-wk.register({
-    t = {
-        name = "Tab",
-        o = {":tabnew<CR>", "Open New Tab"},
-        x = {":tabclose<CR>", "Close Tab"},
-        n = {":tabn<CR>", "Go to next Tab"},
-        p = {":tabp<CR>", "Go to previous Tab"},
-    },
-}, {prefix = "<leader>"})
+wk.add({
+    { "<leader>t", group = "Tab" },
+    { "<leader>tn", ":tabn<CR>", desc = "Go to next Tab" },
+    { "<leader>to", ":tabnew<CR>", desc = "Open New Tab" },
+    { "<leader>tp", ":tabp<CR>", desc = "Go to previous Tab" },
+    { "<leader>tx", ":tabclose<CR>", desc = "Close Tab" },
+})
 
 --------------------
 -- Plugin keymaps
@@ -39,29 +35,25 @@ wk.register({
 keymap.set("n", "<leader>sm", ":MaximizerToggle<CR>") -- toggle split window maximization 
 
 -- nvim-tree
-wk.register({
-    e = {
-        name = "Nvim Tree",
-        t = { "<cmd>NvimTreeToggle<CR>", "Toggle Nvim Tree" },
-        f = { "<cmd>NvimTreeFindFile<CR>", "Focus file on buffer"},
-    }
-}, { prefix = "<leader>"})
+wk.add({
+    { "<leader>e", group = "Nvim Tree" },
+    { "<leader>ef", "<cmd>NvimTreeFindFile<CR>", desc = "Focus file on buffer" },
+    { "<leader>et", "<cmd>NvimTreeToggle<CR>", desc = "Toggle Nvim Tree" },
+})
 
 -- telescope
-wk.register({
-    f = {
-        name = "Find", -- optional group name
-        f = { "<cmd>Telescope find_files<CR>", "Find File" },
-        l = { "<cmd>Telescope live_grep<CR>", "Live Grep all" },
-        d = { "<cmd>Telescope dir live_grep<CR>", "Live Grep in dir"},
-        s = { "<cmd>Telescope current_buffer_fuzzy_find<CR>", "Find in current file"},
-        b = { "<cmd>Telescope buffers<CR>", "Open Buffers" },
-        h = { "<cmd>Telescope help_tags<CR>", "Help Tags"},
-    },
-}, { prefix = "<leader>" })
+wk.add({
+    { "<leader>f", group = "Find" },
+    { "<leader>fb", "<cmd>Telescope buffers<CR>", desc = "Open Buffers" },
+    { "<leader>fd", "<cmd>Telescope dir live_grep<CR>", desc = "Live Grep in dir" },
+    { "<leader>ff", "<cmd>Telescope find_files<CR>", desc = "Find File" },
+    { "<leader>fh", "<cmd>Telescope help_tags<CR>", desc = "Help Tags" },
+    { "<leader>fl", "<cmd>Telescope live_grep<CR>", desc = "Live Grep all" },
+    { "<leader>fs", "<cmd>Telescope current_buffer_fuzzy_find<CR>", desc = "Find in current file" },
+})
 
-wk.register({
-    M = { ":Telescope make<CR>", "Make Targets", },
+wk.add({
+    { "M", ":Telescope make<CR>", desc = "Make Targets" },
 })
 
 -- symbols-outline
@@ -73,10 +65,8 @@ keymap.set("n", "<F10>", ":lua require'dap'.step_over()<CR>")
 keymap.set("n", "<F11>", ":lua require'dap'.step_into()<CR>")
 keymap.set("n", "<F12>", ":lua require'dap'.step_out()<CR>")
 keymap.set("n", "<leader>b", ":lua require'dap'.toggle_breakpoint()<CR>")
-wk.register({
-    d = {
-        name = "DAP",
-        t = { ":lua require'dapui'.toggle()<CR>", "Toggle DAP UI"},
-    }
+wk.add({
+    { "d", group = "DAP" },
+    { "dt", ":lua require'dapui'.toggle()<CR>", desc = "Toggle DAP UI" },
 })
 

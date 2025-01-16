@@ -23,7 +23,16 @@ local on_attach = function(client, bufnr)
     local wk = require("which-key")
 
     -- set keybinds
-    wk.register({
+    wk.add({
+        { "g", desc = "GoTo" },
+        { "gD", vim.lsp.buf.declaration, desc = "Go to declaration" },
+        -- { "gd", "<cmd>Lspsaga peek_definition<CR>", desc = "Peek definition" },
+        { "gd", vim.lsp.buf.definition, desc = "Go to definition"},
+        { "gf", "<cmd>Lspsaga lsp_finder<CR>", desc = "Show definition, references" },
+        { "gi", vim.lsp.buf.implementation, desc = "Go to implementation" },
+    })
+
+    --[[ wk.register({
         g = {
             "GoTo",
             f = { "<cmd>Lspsaga lsp_finder<CR>" , "Show definition, references"},
@@ -31,7 +40,7 @@ local on_attach = function(client, bufnr)
             d = { "<cmd>Lspsaga peek_definition<CR>", "Peek definition"},
             i = { vim.lsp.buf.implementation, "Go to implementation"},
         }
-    }, { prefix = '', mode = "n", opts })
+    }, { prefix = '', mode = "n", opts }) ]]
     keymap.set("n", "<leader>ca", "<cmd>Lspsaga code_action<CR>", opts) -- see available code actions
     keymap.set("n", "<leader>rn", "<cmd>Lspsaga rename<CR>", opts) -- smart rename
     keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>", opts) -- show documentation for what is under cursor
@@ -42,29 +51,27 @@ local on_attach = function(client, bufnr)
     }, { prefix = "<leader>" , mode = "n", opts })
 
     if client.name == 'gopls' then
-        wk.register({
-            c = {
-                name = "Go Code",
-                a = { "<cmd>GoCodeAction<cr>", "Code action" },
-                e = { "<cmd>GoIfErr<cr>", "Add if err" },
-                h = {
-                    name = "Helper",
-                    a = { "<cmd>GoAddTag<cr>", "Add tags to struct" },
-                    r = { "<cmd>GoRMTag<cr>", "Remove tags to struct" },
-                    c = { "<cmd>GoCoverage<cr>", "Test coverage" },
-                    g = { "<cmd>lua require('go.comment').gen()<cr>", "Generate comment" },
-                    v = { "<cmd>GoVet<cr>", "Go vet" },
-                    t = { "<cmd>GoModTidy<cr>", "Go mod tidy" },
-                    i = { "<cmd>GoModInit<cr>", "Go mod init" },
-                },
-                s = { "<cmd>GoFillStruct<cr>", "Autofill struct" },
-                x = {
-                    name = "Code Lens",
-                    l = { "<cmd>GoCodeLenAct<cr>", "Toggle Lens" },
-                    i = { "<cmd>GoToggleInlay<CR>", "Toggle InLay" },
-                },
+        wk.add({
+            { "<leader>c", group = "Go Code" },
+            { "<leader>ca", "<cmd>GoCodeAction<cr>", desc = "Code action" },
+            { "<leader>ce", "<cmd>GoIfErr<cr>", desc = "Add if err" },
+            { "<leader>cs", "<cmd>GoFillStruct<cr>", desc = "Autofill struct" },
+            {
+                { "<leader>ch", group = "Helper" },
+                { "<leader>cha", "<cmd>GoAddTag<cr>", desc = "Add tags to struct" },
+                { "<leader>chr", "<cmd>GoRMTag<cr>", desc = "Remove tags to struct" },
+                { "<leader>cc", "<cmd>GoCoverage<cr>", desc = "Test coverage" },
+                { "<leader>cg", "<cmd>lua require('go.comment').gen()<cr>", desc = "Generate comment" },
+                { "<leader>cv", "<cmd>GoVet<cr>", desc = "Go vet" },
+                { "<leader>ct", "<cmd>GoModTidy<cr>", desc = "Go mod tidy" },
+                { "<leader>ci", "<cmd>GoModInit<cr>", desc = "Go mod init" },
             },
-        }, { prefix = "<leader>", mode = "n", opts })
+            {
+                { "<leader>cx", group = "Code Lens" },
+                { "<leader>cxl", "<cmd>GoCodeLenAct<cr>", desc = "Toggle Lens" },
+                { "<leader>cxi", "<cmd>GoToggleInlay<CR>", desc = "Toggle InLay" },
+            },
+        })
     end
 end
 

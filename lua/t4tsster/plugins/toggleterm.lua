@@ -1,16 +1,21 @@
-local status, toggleterm = pcall(require, "toggleterm")
-if not status then
-    return
+local status_ok, toggleterm = pcall(require, "toggleterm")
+if not status_ok then
+ return
 end
 
 toggleterm.setup({
-    size = 15,
+    size = 20,
+    open_mapping = [[<c-\>]],
     hide_numbers = true,
     shade_filetypes = {},
     shade_terminals = true,
     shading_factor = 2,
+    start_in_insert = true,
+    insert_mappings = true,
+    persist_size = true,
+    direction = "float",
     close_on_exit = true,
-    direction = 'horizontal',
+    shell = vim.o.shell,
     float_opts = {
         border = "curved",
         winblend = 0,
@@ -19,9 +24,4 @@ toggleterm.setup({
             background = "Normal",
         },
     },
-})
-
-local wk = require("which-key")
-wk.register({
-    ['<C-\\>'] = { ':ToggleTerm<CR>', 'Toggle Terminal' }
 })
