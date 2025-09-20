@@ -18,12 +18,13 @@ mason.setup()
 mason_lspconfig.setup({
     ensure_installed = {
         "lua_ls",
-        "jedi_language_server",
         "jdtls",
         "gopls",
         "clangd",
+        "html",
+        "cssls",
     },
-    -- auto-install configured servers (with lspconfig)
+    -- auto-install configured servers (compatible with vim.lsp.enable)
     automatic_installation = true, -- not the same as ensure_installed
 })
 
@@ -31,8 +32,7 @@ mason_null_ls.setup({
     ensure_installed = {
         "prettier",
         "stylua",
-        "eslint",
+        "golangci-lint",
         "goimports",
-        "autopep8",
     },
 })

@@ -1,8 +1,3 @@
-local status, lspconfig = pcall(require, "lspconfig")
-if not status then
-    return
-end
-
 local status, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
 if not status then
     return
@@ -84,14 +79,20 @@ capabilities.textDocument.foldingRange = {
 }
 
 -- configure html server
-lspconfig["html"].setup({
+vim.lsp.enable({
+  name = 'html',
+  cmd = { 'vscode-html-language-server', '--stdio' },
+  root_patterns = { '.git', 'package.json' },
   capabilities = capabilities,
   on_attach = on_attach,
 })
 
 -- configure golang with plugin
 go.setup()
-lspconfig["gopls"].setup({
+vim.lsp.enable({
+    name = 'gopls',
+    cmd = { 'gopls' },
+    root_patterns = { 'go.mod', '.git' },
     capabilities = capabilities,
     on_attach = on_attach,
     settings = {
@@ -107,13 +108,19 @@ lspconfig["gopls"].setup({
 })
 
 -- configure css server
-lspconfig["cssls"].setup({
+vim.lsp.enable({
+  name = 'cssls',
+  cmd = { 'vscode-css-language-server', '--stdio' },
+  root_patterns = { '.git', 'package.json' },
   capabilities = capabilities,
   on_attach = on_attach,
 })
 
 -- configure lua server (with special settings)
-lspconfig["lua_ls"].setup({
+vim.lsp.enable({
+  name = 'lua_ls',
+  cmd = { 'lua-language-server' },
+  root_patterns = { '.luarc.json', '.luarc.jsonc', '.luacheckrc', '.stylua.toml', 'stylua.toml', 'selene.toml', 'selene.yml', '.git' },
   capabilities = capabilities,
   on_attach = on_attach,
   settings = { -- custom settings for lua
